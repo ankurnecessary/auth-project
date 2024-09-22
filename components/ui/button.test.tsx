@@ -12,4 +12,16 @@ describe('Button', () => {
 
     expect(button).toBeInTheDocument();
   });
+
+  it('renders a <span /> using [asChild]', () => {
+    render(
+      <Button asChild>
+        <span>Submit</span>
+      </Button>,
+    );
+
+    const span = screen.getByText('Submit', { selector: 'span' });
+
+    expect(span).toBeInTheDocument();
+  });
 });

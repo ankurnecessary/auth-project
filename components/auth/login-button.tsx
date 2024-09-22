@@ -13,6 +13,7 @@ function LoginButton({
   children,
   mode = 'redirect',
   /* eslint-disable @typescript-eslint/no-unused-vars */
+  // eslint-disable-next-line no-unused-vars
   asChild,
 }: LoginButtonProps) {
   const router = useRouter();
