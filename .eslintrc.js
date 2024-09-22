@@ -22,6 +22,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:prettier/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:storybook/recommended',
   ],
   plugins: ['prettier', '@typescript-eslint', 'react', 'react-hooks'],
   rules: {
@@ -58,6 +59,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     'prettier/prettier': 'warn',
+    'react/no-unknown-property': ['error', { ignore: ['jsx'] }]
   },
   settings: {
     react: {
