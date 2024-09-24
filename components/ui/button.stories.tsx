@@ -3,7 +3,7 @@ import { Button } from './button';
 import { action } from '@storybook/addon-actions';
 
 const meta: Meta<typeof Button> = {
-  title: 'Component/UI/Button', // Each slash will create another level in the left menu
+  title: 'Components/UI/Button', // Each slash will create another level in the left menu
   component: Button, // Component
   tags: ['autodocs'], // Automatically create a document for all the stories of the button
   parameters: {
