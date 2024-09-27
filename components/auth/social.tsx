@@ -6,7 +6,10 @@ import { Button } from '@/components/ui/button';
 
 const Social = () => {
   return (
-    <div className="flex w-full items-center gap-x-2">
+    <div
+      data-testid="social-component"
+      className="flex w-full items-center gap-x-2"
+    >
       <Button size="lg" className="w-full" variant="outline" onClick={() => {}}>
         <FcGoogle className="h-5 w-5" />
       </Button>
