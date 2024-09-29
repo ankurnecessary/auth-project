@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import RootLayout, { metadata } from '@/app/layout'; // Adjust the import path accordingly
+import RootLayout, { metadata } from '@/app/layout';
 import '@testing-library/jest-dom';
 
 jest.mock('@/app/layout', () => {

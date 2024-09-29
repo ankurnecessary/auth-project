@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import CardWrapper from '@/components/auth/card-wrapper'; // Adjust path accordingly
+import CardWrapper from '@/components/auth/card-wrapper';
 import '@testing-library/jest-dom';
 
 describe('CardWrapper component', () => {
