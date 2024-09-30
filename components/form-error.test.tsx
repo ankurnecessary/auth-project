@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { FormError } from '@/components/form-error'; // Adjust the path accordingly
+import { FormError } from '@/components/form-error';
 import '@testing-library/jest-dom';
 
 describe('FormError component', () => {
