@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { FormSuccess } from '@/components/form-success'; // Adjust the path accordingly
+import { FormSuccess } from '@/components/form-success';
 import '@testing-library/jest-dom';
 
 describe('FormError component', () => {
