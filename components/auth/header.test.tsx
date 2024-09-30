@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Header from '@/components/auth/header'; // Adjust path accordingly
+import Header from '@/components/auth/header';
 import '@testing-library/jest-dom';
 import { Poppins } from 'next/font/google';
 

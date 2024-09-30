@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import BackButton from '@/components/auth/back-button'; // Adjust path accordingly
+import BackButton from '@/components/auth/back-button';
 import '@testing-library/jest-dom';
 
 describe('BackButton component', () => {

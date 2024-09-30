@@ -1,5 +1,5 @@
-import { render, screen } from '@testing-library/react';
-import { LoginForm } from '@/components/auth/login-form'; // Adjust path accordingly
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { LoginForm } from '@/components/auth/login-form';
 import '@testing-library/jest-dom';
 
 describe('LoginForm component', () => {
@@ -18,8 +18,12 @@ describe('LoginForm component', () => {
     expect(backButtonElement).toHaveAttribute('href', '/auth/register');
 
     // Check if the login form content is rendered
-    const loginFormContent = screen.getByText('Login Form');
-    expect(loginFormContent).toBeInTheDocument();
+    const emailField = screen.getByRole('textbox', {
+      name: /email/i,
+    });
+    const passwordField = screen.getByLabelText(/password/i);
+    expect(emailField).toBeInTheDocument();
+    expect(passwordField).toBeInTheDocument();
   });
 
   it('renders the Social component within CardWrapper', () => {
@@ -28,5 +32,26 @@ describe('LoginForm component', () => {
     // Check that the Social component is not rendered
     const socialComponent = screen.queryByTestId('social-component');
     expect(socialComponent).toBeInTheDocument();
+  });
+
+  it('renders validation errors', async () => {
+    render(<LoginForm />);
+    await act(async () => {
+      fireEvent.input(screen.getByLabelText(/email/i), {
+        target: { value: '' },
+      });
+      fireEvent.input(screen.getByLabelText('Password'), {
+        target: { value: '' },
+      });
+    });
+
+    fireEvent.submit(screen.getByRole('button', { name: /login$/i }));
+
+    expect(
+      await screen.findByText(/Please enter a valid email address./i),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText(/^Password is required/i),
+    ).toBeInTheDocument();
   });
 });
