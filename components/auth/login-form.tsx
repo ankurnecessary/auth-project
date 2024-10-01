@@ -24,6 +24,8 @@ import { login } from '@/actions/login';
 export const LoginForm = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>();
+  const [success, setSuccess] = useState<string | undefined>();
 
   // This ensures that the component only renders after it's mounted on the client
   useEffect(() => {
@@ -39,7 +41,11 @@ export const LoginForm = () => {
   });
 
   const submitHandler = (values: z.infer<typeof loginSchema>) => {
-    startTransition(() => login(values));
+    startTransition(async () => {
+      const data = await login(values);
+      setError(data.error);
+      setSuccess(data.success);
+    });
   };
 
   // Only render the form once the component is mounted
@@ -94,8 +100,8 @@ export const LoginForm = () => {
               )}
             />
           </div>
-          <FormError message="" />
-          <FormSuccess message="" />
+          <FormError message={error} />
+          <FormSuccess message={success} />
           <Button type="submit" className="w-full" disabled={isPending}>
             Login
           </Button>
