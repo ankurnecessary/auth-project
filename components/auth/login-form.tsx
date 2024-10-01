@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import CardWrapper from './card-wrapper';
 
 import * as z from 'zod';
@@ -19,9 +19,11 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { FormError } from '@/components/form-error';
 import { FormSuccess } from '@/components/form-success';
+import { login } from '@/actions/login';
 
 export const LoginForm = () => {
   const [isMounted, setIsMounted] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   // This ensures that the component only renders after it's mounted on the client
   useEffect(() => {
@@ -37,7 +39,7 @@ export const LoginForm = () => {
   });
 
   const submitHandler = (values: z.infer<typeof loginSchema>) => {
-    console.log(values);
+    startTransition(() => login(values));
   };
 
   // Only render the form once the component is mounted
@@ -64,6 +66,7 @@ export const LoginForm = () => {
                   <FormControl>
                     <Input
                       {...field}
+                      disabled={isPending}
                       placeholder="jhon.doe@example.com"
                       type="email"
                     />
@@ -79,7 +82,12 @@ export const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="******" type="password" />
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="******"
+                      type="password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -88,7 +96,7 @@ export const LoginForm = () => {
           </div>
           <FormError message="" />
           <FormSuccess message="" />
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" disabled={isPending}>
             Login
           </Button>
         </form>
