@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CardWrapper from './card-wrapper';
 
 import * as z from 'zod';
@@ -21,6 +21,13 @@ import { FormError } from '@/components/form-error';
 import { FormSuccess } from '@/components/form-success';
 
 export const LoginForm = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  // This ensures that the component only renders after it's mounted on the client
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -32,6 +39,11 @@ export const LoginForm = () => {
   const submitHandler = (values: z.infer<typeof loginSchema>) => {
     console.log(values);
   };
+
+  // Only render the form once the component is mounted
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <CardWrapper
