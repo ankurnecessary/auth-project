@@ -1,6 +1,18 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import { LoginForm } from '@/components/auth/login-form';
 import '@testing-library/jest-dom';
+import { login } from '@/actions/login';
+
+// Mocking login function
+jest.mock('@/actions/login', () => ({
+  login: jest.fn(),
+}));
 
 describe('LoginForm component', () => {
   it('renders the LoginForm with CardWrapper and correct props', () => {
@@ -53,5 +65,103 @@ describe('LoginForm component', () => {
     expect(
       await screen.findByText(/^Password is required/i),
     ).toBeInTheDocument();
+  });
+
+  test('should submit form and show success message on successful login', async () => {
+    const mockLogin = login as jest.Mock;
+    mockLogin.mockResolvedValueOnce({
+      success: 'Login successful',
+      error: undefined,
+    });
+
+    render(<LoginForm />);
+
+    // Fill in the form fields
+    fireEvent.change(screen.getByPlaceholderText('jhon.doe@example.com'), {
+      target: { value: 'jhon.doe1@example.com' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('******'), {
+      target: { value: 'password123' },
+    });
+
+    // Submit the form
+    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+
+    // Wait for the login function to be called and for the success message to appear
+    await waitFor(() =>
+      expect(mockLogin).toHaveBeenCalledWith({
+        email: 'jhon.doe1@example.com',
+        password: 'password123',
+      }),
+    );
+
+    expect(screen.getByText('Login successful')).toBeInTheDocument();
+  });
+
+  test('should show error message on failed login', async () => {
+    const mockLogin = login as jest.Mock;
+    mockLogin.mockResolvedValueOnce({
+      error: 'Invalid credentials',
+    });
+
+    render(<LoginForm />);
+
+    // Fill in the form fields
+    fireEvent.change(screen.getByPlaceholderText('jhon.doe@example.com'), {
+      target: { value: 'jhon.doe@example.com' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('******'), {
+      target: { value: 'wrongpassword' },
+    });
+
+    // Submit the form
+    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+
+    // Wait for the login function to be called and for the error message to appear
+    await waitFor(() =>
+      expect(mockLogin).toHaveBeenCalledWith({
+        email: 'jhon.doe@example.com',
+        password: 'wrongpassword',
+      }),
+    );
+
+    expect(screen.getByText('Invalid credentials')).toBeInTheDocument();
+  });
+
+  test('should disable inputs and button during form submission', async () => {
+    const mockLogin = login as jest.Mock;
+    mockLogin.mockImplementation(
+      () =>
+        new Promise((resolve) =>
+          setTimeout(() => resolve({ success: 'Success' }), 1000),
+        ),
+    ); // Simulate delay
+
+    render(<LoginForm />);
+
+    // Fill in the form fields
+    fireEvent.change(screen.getByPlaceholderText('jhon.doe@example.com'), {
+      target: { value: 'test@example.com' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('******'), {
+      target: { value: 'password123' },
+    });
+
+    // Submit the form
+    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+
+    // Check if inputs and button are disabled during submission
+    expect(screen.getByPlaceholderText('jhon.doe@example.com')).toBeDisabled();
+    expect(screen.getByPlaceholderText('******')).toBeDisabled();
+    expect(screen.getByRole('button', { name: /login/i })).toBeDisabled();
+
+    // Wait for the submission to complete and check if they are enabled again
+    await waitFor(() => {
+      expect(
+        screen.getByPlaceholderText('jhon.doe@example.com'),
+      ).not.toBeDisabled();
+      expect(screen.getByPlaceholderText('******')).not.toBeDisabled();
+      expect(screen.getByRole('button', { name: /login/i })).not.toBeDisabled();
+    });
   });
 });
