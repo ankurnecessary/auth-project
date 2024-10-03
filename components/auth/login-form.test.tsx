@@ -67,7 +67,7 @@ describe('LoginForm component', () => {
     ).toBeInTheDocument();
   });
 
-  test('should submit form and show success message on successful login', async () => {
+  it('should submit form and show success message on successful login', async () => {
     const mockLogin = login as jest.Mock;
     mockLogin.mockResolvedValueOnce({
       success: 'Login successful',
@@ -98,7 +98,7 @@ describe('LoginForm component', () => {
     expect(screen.getByText('Login successful')).toBeInTheDocument();
   });
 
-  test('should show error message on failed login', async () => {
+  it('should show error message on failed login', async () => {
     const mockLogin = login as jest.Mock;
     mockLogin.mockResolvedValueOnce({
       error: 'Invalid credentials',
@@ -128,8 +128,10 @@ describe('LoginForm component', () => {
     expect(screen.getByText('Invalid credentials')).toBeInTheDocument();
   });
 
-  test('should disable inputs and button during form submission', async () => {
+  it('should disable inputs and button during form submission', async () => {
     const mockLogin = login as jest.Mock;
+
+    // Mock the login function to simulate a delay and successful response
     mockLogin.mockImplementation(
       () =>
         new Promise((resolve) =>
@@ -150,10 +152,14 @@ describe('LoginForm component', () => {
     // Submit the form
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
-    // Check if inputs and button are disabled during submission
-    expect(screen.getByPlaceholderText('jhon.doe@example.com')).toBeDisabled();
-    expect(screen.getByPlaceholderText('******')).toBeDisabled();
-    expect(screen.getByRole('button', { name: /login/i })).toBeDisabled();
+    // Wait for the inputs and button to be disabled after form submission starts
+    await waitFor(() => {
+      expect(
+        screen.getByPlaceholderText('jhon.doe@example.com'),
+      ).toBeDisabled();
+      expect(screen.getByPlaceholderText('******')).toBeDisabled();
+      expect(screen.getByRole('button', { name: /login/i })).toBeDisabled();
+    });
 
     // Wait for the submission to complete and check if they are enabled again
     await waitFor(() => {
