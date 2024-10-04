@@ -3,7 +3,7 @@
 exports[`FormError component matches snapshot when message is provided 1`] = `
 <DocumentFragment>
   <div
-    class="flex items-center gap-x-2 rounded-md bg-emerald-500/15 p-3 text-sm text-emerald-500"
+    class="flex items-center gap-x-2 rounded-md bg-emerald-500/15 p-3 text-sm text-emerald-700"
   >
     <svg
       class="h-4 w-4"
