@@ -16,7 +16,8 @@
     "prettier": "prettier --write */**/*.{js,jsx,json,ts,tsx,scss,css,md}",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_31b68368f34eec6"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.5.3",
@@ -46,7 +47,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^1.9.0",
+    "@chromatic-com/storybook": "^2.0.2",
     "@storybook/addon-a11y": "^8.3.4",
     "@storybook/addon-essentials": "^8.3.4",
     "@storybook/addon-interactions": "^8.3.4",
@@ -63,6 +64,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "chromatic": "^11.11.0",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.13",
     "eslint-plugin-storybook": "^0.8.0",
