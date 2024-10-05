@@ -16,7 +16,8 @@
     "prettier": "prettier --write */**/*.{js,jsx,json,ts,tsx,scss,css,md}",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_31b68368f34eec6"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.5.3",
