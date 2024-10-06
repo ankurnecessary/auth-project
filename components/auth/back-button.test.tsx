@@ -31,4 +31,9 @@ describe('BackButton component', () => {
     const linkElement = screen.getByRole('link', { name: label });
     expect(linkElement).toBeInTheDocument(); // Check if Link is wrapped in a Button
   });
+
+  it('matches snapshot when all attributes are provided', () => {
+    const { asFragment } = render(<BackButton label={label} href={href} />);
+    expect(asFragment()).toMatchSnapshot();
+  });
 });
