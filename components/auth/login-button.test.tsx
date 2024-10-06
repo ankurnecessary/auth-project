@@ -23,13 +23,13 @@ describe('LoginButton Component', () => {
     jest.clearAllMocks(); // Reset mocks after each test
   });
 
-  test('1. renders children correctly', () => {
+  it('renders children correctly', () => {
     render(<LoginButton>Click me</LoginButton>);
 
     expect(screen.getByText('Click me')).toBeInTheDocument();
   });
 
-  test('2. redirects to /auth/login when clicked', () => {
+  it('redirects to /auth/login when clicked', () => {
     render(<LoginButton>Login</LoginButton>);
 
     fireEvent.click(screen.getByText('Login'));
@@ -37,7 +37,7 @@ describe('LoginButton Component', () => {
     expect(mockPush).toHaveBeenCalledWith('/auth/login');
   });
 
-  test('3. displays modal implementation when mode is modal', () => {
+  it('displays modal implementation when mode is modal', () => {
     render(<LoginButton mode="modal">Login</LoginButton>);
 
     expect(screen.getByText('TODO: Modal implementation')).toBeInTheDocument();
