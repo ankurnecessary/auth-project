@@ -28,4 +28,9 @@ describe('Social component', () => {
       expect(button).toHaveClass('border'); // assuming outline variant applies 'outline' class
     });
   });
+
+  it('matches snapshot when label is provided', () => {
+    const { asFragment } = render(<Social />);
+    expect(asFragment()).toMatchSnapshot();
+  });
 });

@@ -48,4 +48,9 @@ describe('Header component', () => {
     const paragraphElement = screen.getByText(label);
     expect(paragraphElement).toHaveClass('text-sm text-muted-foreground');
   });
+
+  it('matches snapshot when label is provided', () => {
+    const { asFragment } = render(<Header label={label} />);
+    expect(asFragment()).toMatchSnapshot();
+  });
 });

@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BackButton component matches snapshot when all attributes are provided 1`] = `
+<DocumentFragment>
+  <a
+    class="inline-flex items-center justify-center whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-primary underline-offset-4 hover:underline h-8 rounded-md px-3 text-xs w-full font-normal"
+    href="/previous-page"
+  >
+    Go Back
+  </a>
+</DocumentFragment>
+`;

@@ -86,4 +86,31 @@ describe('CardWrapper component', () => {
     expect(backButtonElement).toBeInTheDocument();
     expect(backButtonElement).toHaveAttribute('href', backButtonHref);
   });
+
+  it('matches snapshot when all attributes are provided except social', () => {
+    const { asFragment } = render(
+      <CardWrapper
+        headerlabel={headerlabel}
+        backButtonLabel={backButtonLabel}
+        backButtonHref={backButtonHref}
+      >
+        <div>Child Content</div>
+      </CardWrapper>,
+    );
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('matches snapshot when all attributes are provided alongwith social', () => {
+    const { asFragment } = render(
+      <CardWrapper
+        headerlabel={headerlabel}
+        backButtonLabel={backButtonLabel}
+        backButtonHref={backButtonHref}
+        showSocial={true}
+      >
+        <div>Child Content</div>
+      </CardWrapper>,
+    );
+    expect(asFragment()).toMatchSnapshot();
+  });
 });

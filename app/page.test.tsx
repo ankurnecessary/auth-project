@@ -41,7 +41,7 @@ describe('Home Page', () => {
     jest.clearAllMocks(); // Clear mock states after each test
   });
 
-  test('renders main heading and description', () => {
+  it('renders main heading and description', () => {
     render(<Home />);
 
     // Check if the main heading is rendered
@@ -55,7 +55,7 @@ describe('Home Page', () => {
     expect(description).toHaveClass('text-lg');
   });
 
-  test('renders LoginButton with Sign in button', () => {
+  it('renders LoginButton with Sign in button', () => {
     render(<Home />);
 
     // Check if the LoginButton component is rendered with the Sign in button
@@ -66,7 +66,7 @@ describe('Home Page', () => {
     expect(signInButton).toBeInTheDocument();
   });
 
-  test('triggers navigation on Sign in button click', () => {
+  it('triggers navigation on Sign in button click', () => {
     render(<Home />);
 
     // Simulate click event on the Sign in button
