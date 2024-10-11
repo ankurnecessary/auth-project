@@ -8,8 +8,7 @@ import { getUserByEmail } from '@/data/user';
 
 export const register = async (values: z.infer<typeof registerSchema>) => {
   const validatedFieldset = registerSchema.safeParse(values);
-
-  if (!validatedFieldset) {
+  if (!validatedFieldset.success) {
     return {
       error: 'Invalid fields!',
     };

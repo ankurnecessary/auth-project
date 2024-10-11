@@ -4,9 +4,9 @@ import { loginSchema } from '@/schemas';
 import * as z from 'zod';
 
 export const login = async (values: z.infer<typeof loginSchema>) => {
-  const validatedFields = loginSchema.safeParse(values);
+  const validatedFieldset = loginSchema.safeParse(values);
 
-  if (!validatedFields) {
+  if (!validatedFieldset.success) {
     return {
       error: 'Invalid fields!',
     };
