@@ -14,6 +14,7 @@ const createJestConfig = nextJest({
 const config: Config = {
   projects: [
     '<rootDir>/jest.frontend.config.ts', // Points to frontend Jest config
+    '<rootDir>/jest.backend.config.ts', // Points to backend Jest config
   ],
   collectCoverageFrom: [
     'components/!(ui)/**/*.{js,jsx,ts,tsx}',
