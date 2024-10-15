@@ -26,6 +26,8 @@ const config: Config = {
     '!lib/**/*.test.{js,ts}',
     'data/**/*.{js,ts}',
     '!data/**/*.test.{js,ts}',
+    'actions/**/*.{js,ts}',
+    '!actions/**/*.test.{js,ts}',
   ],
   collectCoverage: true,
   coverageProvider: 'v8',
