@@ -5,6 +5,7 @@ import * as z from 'zod';
 import { signIn } from '@/auth';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { AuthError } from 'next-auth';
+// TODO: Remove the error ("[auth][error] CredentialsSignin: Read more at https://errors.authjs.dev#credentialssignin") while running build and using invalid credentials on login form.
 
 export const login = async (values: z.infer<typeof loginSchema>) => {
   const validatedFieldset = loginSchema.safeParse(values);

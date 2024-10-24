@@ -19,6 +19,7 @@ export default {
           if (!user || !user.password) return null;
 
           // If user and its password exist then we are comparing the stored encrypted password with the encrypted entered password.
+          // TODO: Replace bcryptjs with some other library as it is showing some warnings during build.
           const passwordsMatch = await bcrypt.compare(password, user.password);
 
           // If everything goes well user will be returned.
