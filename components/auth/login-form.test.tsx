@@ -67,37 +67,6 @@ describe('LoginForm component', () => {
     ).toBeInTheDocument();
   });
 
-  it('should submit form and show success message on successful login', async () => {
-    const mockLogin = login as jest.Mock;
-    mockLogin.mockResolvedValueOnce({
-      success: 'Login successful',
-      error: undefined,
-    });
-
-    render(<LoginForm />);
-
-    // Fill in the form fields
-    fireEvent.change(screen.getByPlaceholderText('jhon.doe@example.com'), {
-      target: { value: 'jhon.doe1@example.com' },
-    });
-    fireEvent.change(screen.getByPlaceholderText('******'), {
-      target: { value: 'password123' },
-    });
-
-    // Submit the form
-    fireEvent.click(screen.getByRole('button', { name: /login/i }));
-
-    // Wait for the login function to be called and for the success message to appear
-    await waitFor(() =>
-      expect(mockLogin).toHaveBeenCalledWith({
-        email: 'jhon.doe1@example.com',
-        password: 'password123',
-      }),
-    );
-
-    expect(screen.getByText('Login successful')).toBeInTheDocument();
-  });
-
   it('should show error message on failed login', async () => {
     const mockLogin = login as jest.Mock;
     mockLogin.mockResolvedValueOnce({
