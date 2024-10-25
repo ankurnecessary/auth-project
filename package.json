@@ -15,6 +15,7 @@
     "test:snapshot": "jest -u",
     "test:fe": "jest --selectProjects frontend",
     "test:be": "jest --selectProjects backend",
+    "postinstall": "prisma generate",
     "prettier": "prettier --write */**/*.{js,jsx,json,ts,tsx,scss,css,md}",
     "prepare": "husky",
     "storybook": "storybook dev -p 6006",
