@@ -28,6 +28,8 @@ const config: Config = {
     '!data/**/*.test.{js,ts}',
     'actions/**/*.{js,ts}',
     '!actions/**/*.test.{js,ts}',
+    '!auth.test.ts',
+    'auth.ts',
   ],
   collectCoverage: true,
   coverageProvider: 'v8',
