@@ -171,6 +171,7 @@ const config: Config = {
     '<rootDir>/data/**/*.test.(js|ts)',
     '<rootDir>/lib/**/*.test.(js|ts)',
     '<rootDir>/actions/**/*.test.(js|ts)',
+    '<rootDir>/*.test.(js|ts)',
   ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped

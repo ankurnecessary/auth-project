@@ -39,3 +39,9 @@ next-env.d.ts
 # build statistics
 build-stats.txt
 *storybook.log
+
+# storybook build
+storybook-static
+
+# vscode debugging
+.vscode
