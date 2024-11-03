@@ -84,4 +84,40 @@ describe('login', () => {
     });
     expect(result).toBeUndefined();
   });
+
+  it('should return "Invalid credentials!" when CredentialsSignin error occurs', async () => {
+    // Arrange: Mock credentials that match the expected schema shape
+    jest.spyOn(loginSchema, 'safeParse').mockReturnValueOnce({
+      success: true,
+      data: mockValues,
+    });
+
+    const credentialsSigninError = new AuthError();
+    credentialsSigninError.type = 'CredentialsSignin';
+    (signIn as jest.Mock).mockRejectedValueOnce(credentialsSigninError);
+
+    // Act
+    const result = await login(mockValues);
+
+    // Assert
+    expect(result).toEqual({ error: 'Invalid credentials!' });
+  });
+
+  it('should return "Something went wrong!" when an error occurs not of type CredentialsSignin', async () => {
+    // Arrange
+
+    // Mock the schema to return a valid result
+    jest.spyOn(loginSchema, 'safeParse').mockReturnValueOnce({
+      success: true,
+      data: mockValues,
+    });
+
+    (signIn as jest.Mock).mockRejectedValueOnce(new AuthError());
+
+    // Act
+    const result = await login(mockValues);
+
+    // Assert
+    expect(result).toEqual({ error: 'Something went wrong!' });
+  });
 });
