@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:stats": "build-with-date.sh",
-    "start": "next start -p 4000",
+    "start": "next start -p 3000",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "test": "jest",
