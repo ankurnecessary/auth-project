@@ -32,6 +32,22 @@ jest.mock('@/data/user', () => ({
   getUserById: jest.fn(),
 }));
 
+jest.mock('next-auth/providers/google', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  })),
+}));
+
+jest.mock('next-auth/providers/github', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    clientId: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  })),
+}));
+
 describe('NextAuth Callbacks', () => {
   afterEach(() => {
     jest.clearAllMocks();

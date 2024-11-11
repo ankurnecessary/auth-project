@@ -14,6 +14,20 @@ jest.mock('@/actions/login', () => ({
   login: jest.fn(),
 }));
 
+jest.mock('next-auth/react', () => ({
+  signIn: jest.fn(),
+}));
+
+jest.mock('next/navigation', () => ({
+  ...jest.requireActual('next/navigation'),
+  useSearchParams: () => ({
+    get: jest.fn((key) => {
+      if (key === 'error') return 'OAuthAccountNotLinked';
+      return null;
+    }),
+  }),
+}));
+
 describe('LoginForm component', () => {
   it('renders the LoginForm with CardWrapper and correct props', () => {
     render(<LoginForm />);

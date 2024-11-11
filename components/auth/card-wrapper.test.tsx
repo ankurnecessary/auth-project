@@ -2,6 +2,10 @@ import { render, screen } from '@testing-library/react';
 import CardWrapper from '@/components/auth/card-wrapper';
 import '@testing-library/jest-dom';
 
+jest.mock('next-auth/react', () => ({
+  signIn: jest.fn(),
+}));
+
 describe('CardWrapper component', () => {
   const headerlabel = 'Welcome';
   const backButtonLabel = 'Go Back';

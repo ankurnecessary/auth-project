@@ -14,6 +14,10 @@ jest.mock('@/actions/register', () => ({
   register: jest.fn(),
 }));
 
+jest.mock('next-auth/react', () => ({
+  signIn: jest.fn(),
+}));
+
 describe('RegisterForm Component', () => {
   it('should submit form and show success message on successful registration', async () => {
     const mockRegister = register as jest.Mock;

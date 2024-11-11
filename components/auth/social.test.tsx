@@ -1,6 +1,11 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
-import Social from '@/components/auth/social'; // Update the path as needed
+import Social from '@/components/auth/social';
+
+// Mock the signIn function
+jest.mock('next-auth/react', () => ({
+  signIn: jest.fn(),
+}));
 
 describe('Social component', () => {
   it('renders the Social component with two buttons', () => {
