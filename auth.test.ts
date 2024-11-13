@@ -52,6 +52,8 @@ jest.mock('next-auth/providers/github', () => ({
   })),
 }));
 
+jest.useFakeTimers();
+
 describe('NextAuth Callbacks', () => {
   afterEach(() => {
     jest.clearAllMocks();
