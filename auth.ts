@@ -5,6 +5,7 @@ import db from './lib/db';
 import { getUserById } from '@/data/user';
 import { UserRole } from '@prisma/client';
 import { JWT } from 'next-auth/jwt';
+import type { AdapterUser } from '@auth/core/adapters';
 
 export const jwt = async ({
   token,
@@ -47,6 +48,13 @@ export const session = ({
   return session;
 };
 
+export const linkAccount = async ({ user }: { user: User | AdapterUser }) => {
+  await db.user.update({
+    where: { id: user.id },
+    data: { emailVerified: new Date() },
+  });
+};
+
 export const {
   auth,
   signIn,
@@ -58,12 +66,7 @@ export const {
     error: '/auth/error', // Setting route for authentication error
   },
   events: {
-    async linkAccount({ user }) {
-      await db.user.update({
-        where: { id: user.id },
-        data: { emailVerified: new Date() },
-      });
-    },
+    linkAccount,
   },
   callbacks: {
     jwt,
