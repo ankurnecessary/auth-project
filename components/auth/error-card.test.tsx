@@ -13,4 +13,9 @@ describe('Error card component', () => {
     const destructiveElement = screen.getByTestId('error');
     expect(destructiveElement).toBeInTheDocument();
   });
+
+  it('matches snapshot', () => {
+    const { asFragment } = render(<ErrorCard />);
+    expect(asFragment()).toMatchSnapshot();
+  });
 });
