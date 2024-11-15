@@ -9,7 +9,10 @@ const ErrorCard = () => {
       backButtonLabel="Back to login"
     >
       <div className="flex w-full justify-center">
-        <ExclamationTriangleIcon className="text-destructive" />
+        <ExclamationTriangleIcon
+          data-testid="error"
+          className="text-destructive"
+        />
       </div>
     </CardWrapper>
   );
