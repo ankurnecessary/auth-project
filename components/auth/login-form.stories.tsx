@@ -7,6 +7,9 @@ const meta: Meta<typeof LoginForm> = {
   tags: ['autodocs'], // Automatically create a document for all the stories of the button
   parameters: {
     layout: 'centered', // Automatically center the button
+    nextjs: {
+      appDirectory: true,
+    },
   },
   argTypes: {},
 };
