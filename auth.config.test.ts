@@ -1,7 +1,8 @@
 import bcrypt from 'bcryptjs';
 import { loginSchema } from '@/schemas';
 import { getUserByEmail } from '@/data/user';
-import authConfig from '@/auth.config'; // Path to your auth config file
+import authConfig from '@/auth.config';
+import type { CredentialsConfig } from 'next-auth/providers/credentials';
 
 jest.mock('@/schemas', () => ({
   loginSchema: {
@@ -26,6 +27,22 @@ jest.mock('next-auth/providers/credentials', () => ({
   })),
 }));
 
+jest.mock('next-auth/providers/google', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  })),
+}));
+
+jest.mock('next-auth/providers/github', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    clientId: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  })),
+}));
+
 describe('authorize function in NextAuth credentials provider', () => {
   const credentials = {
     email: 'user@example.com',
@@ -43,11 +60,9 @@ describe('authorize function in NextAuth credentials provider', () => {
     });
 
     // Act: Call authorize with invalid credentials
-    const result =
-      await // eslint-disable-next-line @typescript-eslint/no-explicit-any, no-unused-vars
-      (authConfig.providers[0].authorize as (credentials: any) => any)(
-        credentials,
-      );
+    const result = await (
+      authConfig.providers[2] as CredentialsConfig
+    ).authorize(credentials, new Request('http://localhost'));
 
     // Assert: Expect null to be returned
     expect(result).toBeNull();
@@ -62,11 +77,9 @@ describe('authorize function in NextAuth credentials provider', () => {
     (getUserByEmail as jest.Mock).mockResolvedValueOnce(null);
 
     // Act
-    const result =
-      await // eslint-disable-next-line @typescript-eslint/no-explicit-any, no-unused-vars
-      (authConfig.providers[0].authorize as (credentials: any) => any)(
-        credentials,
-      );
+    const result = await (
+      authConfig.providers[2] as CredentialsConfig
+    ).authorize(credentials, new Request('http://localhost'));
 
     // Assert
     expect(getUserByEmail).toHaveBeenCalledWith(credentials.email);
@@ -85,11 +98,9 @@ describe('authorize function in NextAuth credentials provider', () => {
     });
 
     // Act
-    const result =
-      await // eslint-disable-next-line @typescript-eslint/no-explicit-any, no-unused-vars
-      (authConfig.providers[0].authorize as (credentials: any) => any)(
-        credentials,
-      );
+    const result = await (
+      authConfig.providers[2] as CredentialsConfig
+    ).authorize(credentials, new Request('http://localhost'));
 
     // Assert
     expect(result).toBeNull();
@@ -106,11 +117,9 @@ describe('authorize function in NextAuth credentials provider', () => {
     (bcrypt.compare as jest.Mock).mockResolvedValueOnce(true);
 
     // Act
-    const result =
-      await // eslint-disable-next-line @typescript-eslint/no-explicit-any, no-unused-vars
-      (authConfig.providers[0].authorize as (credentials: any) => any)(
-        credentials,
-      );
+    const result = await (
+      authConfig.providers[2] as CredentialsConfig
+    ).authorize(credentials, new Request('http://localhost'));
 
     // Assert
     expect(bcrypt.compare).toHaveBeenCalledWith(
@@ -131,11 +140,9 @@ describe('authorize function in NextAuth credentials provider', () => {
     (bcrypt.compare as jest.Mock).mockResolvedValueOnce(false);
 
     // Act
-    const result =
-      await // eslint-disable-next-line @typescript-eslint/no-explicit-any, no-unused-vars
-      (authConfig.providers[0].authorize as (credentials: any) => any)(
-        credentials,
-      );
+    const result = await (
+      authConfig.providers[2] as CredentialsConfig
+    ).authorize(credentials, new Request('http://localhost'));
 
     // Assert
     expect(bcrypt.compare).toHaveBeenCalledWith(

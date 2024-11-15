@@ -1,9 +1,11 @@
 import { getUserByEmail, getUserById } from '@/data/user';
 import { prismaMock } from '../singleton';
+import { UserRole } from '@prisma/client';
 
 test('should get user by email', async () => {
   const user = {
     id: '1',
+    role: UserRole.USER,
     name: 'Rich',
     email: 'hello@prisma.io',
     emailVerified: null,
@@ -17,6 +19,7 @@ test('should get user by email', async () => {
 
   await expect(getUserByEmail(user.email)).resolves.toEqual({
     id: '1',
+    role: UserRole.USER,
     name: 'Rich',
     email: 'hello@prisma.io',
     emailVerified: null,
@@ -52,6 +55,7 @@ test('should return null when there is a database error while fetching user by e
 test('should get user by valid id', async () => {
   const mockUser = {
     id: '1',
+    role: UserRole.USER,
     name: 'Rich',
     email: 'hello@prisma.io',
     emailVerified: null,

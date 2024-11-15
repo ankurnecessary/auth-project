@@ -1,8 +1,19 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
-import Social from '@/components/auth/social'; // Update the path as needed
+import { render, screen, fireEvent } from '@testing-library/react';
+import Social from '@/components/auth/social';
+import { signIn } from 'next-auth/react';
+import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
+
+// Mock the signIn function
+jest.mock('next-auth/react', () => ({
+  signIn: jest.fn(),
+}));
 
 describe('Social component', () => {
+  afterEach(() => {
+    jest.clearAllMocks(); // Clear mocks after each test
+  });
+
   it('renders the Social component with two buttons', () => {
     render(<Social />);
 
@@ -32,5 +43,29 @@ describe('Social component', () => {
   it('matches snapshot when label is provided', () => {
     const { asFragment } = render(<Social />);
     expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('should call signIn with "google" provider on Google button click', () => {
+    render(<Social />);
+
+    // Click on the Google button
+    fireEvent.click(screen.getByTitle('Continue with google'));
+
+    // Check if signIn was called with the correct provider and callbackUrl
+    expect(signIn).toHaveBeenCalledWith('google', {
+      callbackUrl: DEFAULT_LOGIN_REDIRECT,
+    });
+  });
+
+  it('should call signIn with "github" provider on GitHub button click', () => {
+    render(<Social />);
+
+    // Click on the GitHub button
+    fireEvent.click(screen.getByTitle('Continue with github'));
+
+    // Check if signIn was called with the correct provider and callbackUrl
+    expect(signIn).toHaveBeenCalledWith('github', {
+      callbackUrl: DEFAULT_LOGIN_REDIRECT,
+    });
   });
 });

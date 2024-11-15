@@ -58,8 +58,13 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn', // Checks effect dependencies
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
-    'prettier/prettier': 'warn',
-    'react/no-unknown-property': ['error', { ignore: ['jsx'] }]
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
+    'react/no-unknown-property': ['error', { ignore: ['jsx'] }],
   },
   settings: {
     react: {
