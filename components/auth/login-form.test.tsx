@@ -14,10 +14,6 @@ jest.mock('@/actions/login', () => ({
   login: jest.fn(),
 }));
 
-jest.mock('next-auth/react', () => ({
-  signIn: jest.fn(),
-}));
-
 jest.mock('next/navigation', () => ({
   ...jest.requireActual('next/navigation'),
   useSearchParams: () => ({
