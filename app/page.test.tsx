@@ -5,11 +5,6 @@ import { useRouter } from 'next/navigation';
 import Home from './page';
 // import LoginButton from '@/components/auth/login-button'; // Mocked component
 
-// Mock the useRouter hook from next/navigation
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(),
-}));
-
 // Mock the LoginButton component to simulate its functionality
 jest.mock('@/components/auth/login-button', () => {
   const MockLoginButton = ({ children }: { children: React.ReactNode }) => {
