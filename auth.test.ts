@@ -1,29 +1,7 @@
-// auth.test.ts
 import { UserRole } from '@prisma/client';
 import { getUserById } from '@/data/user';
 import { prismaMock } from '@/singleton';
 import { jwt, session, linkAccount } from '@/auth';
-
-jest.mock('next-auth/providers/credentials', () => {
-  return {
-    __esModule: true,
-    default: jest.fn().mockImplementation(() => ({
-      authorize: jest.fn().mockResolvedValue({ id: 'user-id', role: 'USER' }),
-    })),
-  };
-});
-
-jest.mock('next-auth', () => {
-  return {
-    __esModule: true,
-    default: jest.fn(() => ({
-      auth: jest.fn(),
-      signIn: jest.fn(),
-      signOut: jest.fn(),
-      handlers: { GET: jest.fn(), POST: jest.fn() },
-    })),
-  };
-});
 
 jest.mock('@auth/prisma-adapter', () => ({
   PrismaAdapter: jest.fn(() => ({
@@ -34,22 +12,6 @@ jest.mock('@auth/prisma-adapter', () => ({
 
 jest.mock('@/data/user', () => ({
   getUserById: jest.fn(),
-}));
-
-jest.mock('next-auth/providers/google', () => ({
-  __esModule: true,
-  default: jest.fn(() => ({
-    clientId: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  })),
-}));
-
-jest.mock('next-auth/providers/github', () => ({
-  __esModule: true,
-  default: jest.fn(() => ({
-    clientId: process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  })),
 }));
 
 jest.useFakeTimers();

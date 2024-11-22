@@ -4,43 +4,8 @@ import { getUserByEmail } from '@/data/user';
 import authConfig from '@/auth.config';
 import type { CredentialsConfig } from 'next-auth/providers/credentials';
 
-jest.mock('@/schemas', () => ({
-  loginSchema: {
-    safeParse: jest.fn(),
-  },
-}));
-
 jest.mock('@/data/user', () => ({
   getUserByEmail: jest.fn(),
-}));
-
-jest.mock('bcryptjs', () => ({
-  compare: jest.fn(),
-}));
-
-jest.mock('next-auth/providers/credentials', () => ({
-  __esModule: true,
-  default: jest.fn((config) => ({
-    ...config,
-    authorize: (credentials: Partial<Record<string, unknown>>, req?: Request) =>
-      config.authorize(credentials, req),
-  })),
-}));
-
-jest.mock('next-auth/providers/google', () => ({
-  __esModule: true,
-  default: jest.fn(() => ({
-    clientId: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  })),
-}));
-
-jest.mock('next-auth/providers/github', () => ({
-  __esModule: true,
-  default: jest.fn(() => ({
-    clientId: process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  })),
 }));
 
 describe('authorize function in NextAuth credentials provider', () => {

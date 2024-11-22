@@ -6,7 +6,6 @@ import db from '@/lib/db';
 import { getUserByEmail } from '@/data/user';
 
 // Mock external dependencies
-jest.mock('bcryptjs');
 jest.mock('@/lib/db');
 jest.mock('@/data/user');
 
