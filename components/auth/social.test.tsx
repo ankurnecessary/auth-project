@@ -4,11 +4,6 @@ import Social from '@/components/auth/social';
 import { signIn } from 'next-auth/react';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 
-// Mock the signIn function
-jest.mock('next-auth/react', () => ({
-  signIn: jest.fn(),
-}));
-
 describe('Social component', () => {
   afterEach(() => {
     jest.clearAllMocks(); // Clear mocks after each test

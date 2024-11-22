@@ -4,11 +4,6 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import { useRouter } from 'next/navigation';
 import LoginButton from '@/components/auth/login-button';
 
-// Mock the useRouter hook from next/navigation
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(),
-}));
-
 describe('LoginButton Component', () => {
   const mockPush = jest.fn();
 

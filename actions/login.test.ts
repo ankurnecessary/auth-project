@@ -5,30 +5,10 @@ import { login } from '@/actions/login';
 import { loginSchema } from '@/schemas';
 import * as z from 'zod';
 
-// Mock the schema validation
-jest.mock('@/schemas', () => ({
-  loginSchema: {
-    safeParse: jest.fn(),
-  },
-}));
-
 // Mock the signIn function
 jest.mock('@/auth', () => ({
   signIn: jest.fn(),
 }));
-
-jest.mock('next-auth', () => {
-  return {
-    AuthError: jest.fn().mockImplementation(function (
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      this: any,
-      message: string,
-    ) {
-      this.name = 'AuthError';
-      this.message = message;
-    }),
-  };
-});
 
 jest.mock('@/routes', () => ({
   DEFAULT_LOGIN_REDIRECT: 'mockRedirectURL',
