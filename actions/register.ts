@@ -5,6 +5,7 @@ import * as z from 'zod';
 import bcrypt from 'bcryptjs';
 import db from '@/lib/db';
 import { getUserByEmail } from '@/data/user';
+import { generateVerificationToken } from '@/data/tokens';
 
 export const register = async (values: z.infer<typeof registerSchema>) => {
   const validatedFieldset = registerSchema.safeParse(values);
@@ -28,9 +29,12 @@ export const register = async (values: z.infer<typeof registerSchema>) => {
     data: { name, email, password: hashedPassword },
   });
 
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  const verificationToken = await generateVerificationToken(email);
+  console.log({ verificationToken });
   // TODO: Send verification token email
 
   return {
-    success: 'Registration successful!',
+    success: 'Confirmation email sent!',
   };
 };
