@@ -1,11 +1,12 @@
-import NextAuth, { User, Profile, Session } from 'next-auth';
+import NextAuth, { User, Profile, Session, Account } from 'next-auth';
 import authConfig from './auth.config';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import db from './lib/db';
-import { getUserById } from '@/data/user';
+import { getUserByEmail, getUserById } from '@/data/user';
 import { UserRole } from '@prisma/client';
 import { JWT } from 'next-auth/jwt';
 import type { AdapterUser } from '@auth/core/adapters';
+import { CredentialInput } from 'next-auth/providers/credentials';
 
 export const jwt = async ({
   token,
@@ -55,6 +56,30 @@ export const linkAccount = async ({ user }: { user: User | AdapterUser }) => {
   });
 };
 
+export const signInFunc = async ({
+  user,
+  account,
+}: {
+  user: User | AdapterUser;
+  account: Account | null;
+  profile?: Profile;
+  email?: {
+    verificationRequest?: boolean;
+  };
+  credentials?: Record<string, CredentialInput>;
+}): Promise<boolean | string> => {
+  // Allow OAuth without email verification
+  if (account?.provider !== 'credentials') return true;
+
+  // A user with unverified email cannot login
+  const existingUser = await getUserByEmail(user?.email || '');
+  if (!existingUser?.emailVerified) return false;
+
+  // TODO: Add 2FA check.
+
+  return true;
+};
+
 export const {
   auth,
   signIn,
@@ -69,6 +94,7 @@ export const {
     linkAccount,
   },
   callbacks: {
+    signIn: signInFunc,
     jwt,
     session,
   },
