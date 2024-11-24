@@ -7,6 +7,7 @@ import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { AuthError } from 'next-auth';
 import { getUserByEmail } from '@/data/user';
 import { generateVerificationToken } from '@/data/tokens';
+import { sendVerificationEmail } from '@/lib/mail';
 // TODO: Remove the error ("[auth][error] CredentialsSignin: Read more at https://errors.authjs.dev#credentialssignin") while running build and using invalid credentials on login form.
 
 export const login = async (values: z.infer<typeof loginSchema>) => {
@@ -27,7 +28,13 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
   }
 
   if (!existingUser?.emailVerified) {
-    await generateVerificationToken(existingUser?.email || '');
+    const verificationToken = await generateVerificationToken(
+      existingUser?.email || '',
+    );
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token,
+    );
     return { success: 'Confirmation email sent!' };
   }
 
