@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs';
 import db from '@/lib/db';
 import { getUserByEmail } from '@/data/user';
 import { generateVerificationToken } from '@/data/tokens';
+import { sendVerificationEmail } from '@/lib/mail';
 
 export const register = async (values: z.infer<typeof registerSchema>) => {
   const validatedFieldset = registerSchema.safeParse(values);
@@ -31,8 +32,7 @@ export const register = async (values: z.infer<typeof registerSchema>) => {
 
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const verificationToken = await generateVerificationToken(email);
-  console.log({ verificationToken });
-  // TODO: Send verification token email
+  await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
   return {
     success: 'Confirmation email sent!',
