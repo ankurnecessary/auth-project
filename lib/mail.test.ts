@@ -1,17 +1,6 @@
 import { Resend } from 'resend';
 import { sendVerificationEmail } from '@/lib/mail';
 
-jest.mock('resend', () => {
-  const mockSend = jest.fn();
-  return {
-    Resend: jest.fn().mockImplementation(() => ({
-      emails: {
-        send: mockSend,
-      },
-    })),
-  };
-});
-
 describe('sendVerificationEmail', () => {
   const mockEmail = 'test@example.com';
   const mockToken = 'test-token';

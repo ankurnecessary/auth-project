@@ -68,3 +68,14 @@ jest.mock('@/lib/db', () => ({
     findFirst: jest.fn(),
   },
 }));
+
+jest.mock('resend', () => {
+  const mockSend = jest.fn();
+  return {
+    Resend: jest.fn().mockImplementation(() => ({
+      emails: {
+        send: mockSend,
+      },
+    })),
+  };
+});
