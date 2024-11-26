@@ -59,3 +59,12 @@ jest.mock('next-auth/providers/credentials', () => ({
       config.authorize(credentials, req),
   })),
 }));
+
+jest.mock('@/lib/db', () => ({
+  verificationToken: {
+    delete: jest.fn(),
+    create: jest.fn(),
+    findUnique: jest.fn(),
+    findFirst: jest.fn(),
+  },
+}));

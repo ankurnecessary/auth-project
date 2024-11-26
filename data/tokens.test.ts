@@ -4,12 +4,7 @@ import db from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
 
 jest.mock('./verification-token');
-jest.mock('@/lib/db', () => ({
-  verificationToken: {
-    delete: jest.fn(),
-    create: jest.fn(),
-  },
-}));
+
 jest.mock('uuid', () => ({
   v4: jest.fn(),
 }));

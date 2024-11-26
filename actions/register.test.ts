@@ -8,7 +8,6 @@ import { generateVerificationToken } from '@/data/tokens';
 import { sendVerificationEmail } from '@/lib/mail';
 
 // Mock external dependencies
-jest.mock('@/lib/db');
 jest.mock('@/data/user');
 jest.mock('@/data/tokens');
 jest.mock('@/lib/mail');

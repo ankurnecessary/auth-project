@@ -4,13 +4,6 @@ import {
 } from '@/data/verification-token';
 import db from '@/lib/db';
 
-jest.mock('@/lib/db', () => ({
-  verificationToken: {
-    findUnique: jest.fn(),
-    findFirst: jest.fn(),
-  },
-}));
-
 describe('Verification Token Functions', () => {
   afterEach(() => {
     jest.clearAllMocks();
