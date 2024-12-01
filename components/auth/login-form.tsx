@@ -18,6 +18,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { FormError } from '@/components/form-error';
+import { FormSuccess } from '@/components/form-success';
 import { login } from '@/actions/login';
 import { useSearchParams } from 'next/navigation';
 
@@ -30,6 +31,7 @@ export const LoginForm = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>();
+  const [success, setSuccess] = useState<string | undefined>();
 
   // This ensures that the component only renders after it's mounted on the client
   useEffect(() => {
@@ -48,6 +50,7 @@ export const LoginForm = () => {
     startTransition(async () => {
       const data = await login(values);
       setError(data?.error);
+      setSuccess(data?.success);
     });
   };
 
@@ -104,6 +107,7 @@ export const LoginForm = () => {
             />
           </div>
           <FormError message={error || urlError} />
+          <FormSuccess message={success} />
           <Button type="submit" className="w-full" disabled={isPending}>
             Login
           </Button>

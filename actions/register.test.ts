@@ -4,10 +4,13 @@ import bcrypt from 'bcryptjs';
 import * as z from 'zod';
 import db from '@/lib/db';
 import { getUserByEmail } from '@/data/user';
+import { generateVerificationToken } from '@/data/tokens';
+import { sendVerificationEmail } from '@/lib/mail';
 
 // Mock external dependencies
-jest.mock('@/lib/db');
 jest.mock('@/data/user');
+jest.mock('@/data/tokens');
+jest.mock('@/lib/mail');
 
 describe('register', () => {
   const mockValues = {
@@ -65,9 +68,15 @@ describe('register', () => {
     // Mock password hashing
     (bcrypt.hash as jest.Mock).mockResolvedValueOnce('hashedPassword');
 
+    // Mock verification token generation
+    (generateVerificationToken as jest.Mock).mockResolvedValueOnce({
+      email: mockValues.email,
+      token: 'verificationToken',
+    });
+
     const result = await register(mockValues);
 
-    expect(result).toEqual({ success: 'Registration successful!' });
+    expect(result).toEqual({ success: 'Confirmation email sent!' });
     expect(getUserByEmail).toHaveBeenCalledWith(mockValues.email);
     expect(bcrypt.hash).toHaveBeenCalledWith(mockValues.password, 10);
     expect(db.user.create).toHaveBeenCalledWith({
@@ -77,5 +86,10 @@ describe('register', () => {
         password: 'hashedPassword',
       },
     });
+    expect(generateVerificationToken).toHaveBeenCalledWith(mockValues.email);
+    expect(sendVerificationEmail).toHaveBeenCalledWith(
+      mockValues.email,
+      'verificationToken',
+    );
   });
 });
