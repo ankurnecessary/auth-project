@@ -5,7 +5,7 @@ import { login } from '@/actions/login';
 import { loginSchema } from '@/schemas';
 import * as z from 'zod';
 import { getUserByEmail } from '@/data/user';
-import { generateVerificationToken } from '@/data/tokens';
+import { generateVerificationToken } from '@/lib/tokens';
 import { sendVerificationEmail } from '@/lib/mail';
 
 // Mock the signIn function
@@ -14,7 +14,7 @@ jest.mock('@/auth', () => ({
 }));
 
 jest.mock('@/data/user');
-jest.mock('@/data/tokens');
+jest.mock('@/lib/tokens');
 jest.mock('@/lib/mail');
 
 jest.mock('@/routes', () => ({

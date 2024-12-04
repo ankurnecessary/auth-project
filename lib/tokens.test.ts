@@ -1,9 +1,9 @@
-import { generateVerificationToken } from '@/data/tokens';
-import { getVerificationTokenByEmail } from './verification-token';
+import { generateVerificationToken } from '@/lib/tokens';
+import { getVerificationTokenByEmail } from '@/data/verification-token';
 import db from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
 
-jest.mock('./verification-token');
+jest.mock('@/data/verification-token');
 
 jest.mock('uuid', () => ({
   v4: jest.fn(),
