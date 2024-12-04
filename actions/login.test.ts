@@ -14,7 +14,7 @@ jest.mock('@/auth', () => ({
 }));
 
 jest.mock('@/data/user');
-jest.mock('@/data/tokens');
+jest.mock('@/lib/tokens');
 jest.mock('@/lib/mail');
 
 jest.mock('@/routes', () => ({

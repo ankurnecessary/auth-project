@@ -9,7 +9,7 @@ import { sendVerificationEmail } from '@/lib/mail';
 
 // Mock external dependencies
 jest.mock('@/data/user');
-jest.mock('@/data/tokens');
+jest.mock('@/lib/tokens');
 jest.mock('@/lib/mail');
 
 describe('register', () => {
