@@ -32,7 +32,7 @@ export default auth((req) => {
 
   // Step 3: Redirect to login page if a user is trying to access a route which needs authentication.
   if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL('auth/login', nextUrl));
+    return Response.redirect(new URL('/auth/login', nextUrl));
   }
 
   return;
