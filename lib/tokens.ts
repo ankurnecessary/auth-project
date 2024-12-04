@@ -3,7 +3,7 @@ import db from '@/lib/db';
 import { getVerificationTokenByEmail } from '@/data/verification-token';
 import { getPasswordResetTokenByEmail } from '@/data/password-reset-token';
 
-export const generatePasswordVerificationToken = async (email: string) => {
+export const generatePasswordResetToken = async (email: string) => {
   const token = uuidv4();
   // Token will expire in 1 hour
   const expires = new Date(new Date().getTime() + 3600 * 1000);
