@@ -7,6 +7,7 @@ import { UserRole } from '@prisma/client';
 import { JWT } from 'next-auth/jwt';
 import type { AdapterUser } from '@auth/core/adapters';
 import { CredentialInput } from 'next-auth/providers/credentials';
+import { getTwoFactorConfirmationByUserId } from './data/two-factor-confirmation';
 
 export const jwt = async ({
   token,
@@ -75,7 +76,18 @@ export const signInFunc = async ({
   const existingUser = await getUserByEmail(user?.email || '');
   if (!existingUser?.emailVerified) return false;
 
-  // TODO: Add 2FA check.
+  if (existingUser.isTwoFactorEnabled) {
+    const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
+      existingUser.id,
+    );
+
+    if (!twoFactorConfirmation) return false;
+
+    // Delete 2 factor confirmation for next sign in
+    await db.twoFactorConfirmation.delete({
+      where: { id: twoFactorConfirmation.id },
+    });
+  }
 
   return true;
 };
