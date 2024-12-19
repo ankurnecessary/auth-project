@@ -14,19 +14,21 @@ export const jwt = async ({
   user,
   profile,
 }: {
-  token: JWT & { role?: UserRole }; // Add the custom role to the token type
+  // Add the custom role and isTwoFactorEnabled fields to the token type
+  token: JWT;
   user?: User;
   profile?: Profile;
-}): Promise<JWT & { role?: UserRole }> => {
+}): Promise<JWT> => {
   console.log('=======jwt======');
   console.log({ token, user, profile });
   if (!token.sub) return token;
 
   const existingUser = await getUserById(token.sub);
 
-  if (!existingUser) return token;
-
-  token.role = existingUser.role;
+  if (existingUser) {
+    token.role = existingUser.role;
+    token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
+  }
 
   return token;
 };
@@ -35,13 +37,17 @@ export const session = ({
   session,
   token,
 }: {
-  session: Session & { user?: { id?: string; role?: UserRole } };
-  token: JWT & { sub?: string; role?: UserRole };
-}): Session & { user?: { id?: string; role?: UserRole } } => {
+  session: Session;
+  token: JWT;
+}): Session => {
   console.log('=======session======');
   console.log({ session, token });
   if (!!session.user && !!token.sub) {
     session.user.id = token.sub;
+  }
+
+  if (session.user) {
+    session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
   }
 
   if (!!session.user && !!token.role) {
