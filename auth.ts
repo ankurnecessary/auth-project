@@ -40,8 +40,6 @@ export const session = ({
   session: Session;
   token: JWT;
 }): Session => {
-  console.log('=======session======');
-  console.log({ session, token });
   if (!!session.user && !!token.sub) {
     session.user.id = token.sub;
   }
@@ -53,6 +51,9 @@ export const session = ({
   if (!!session.user && !!token.role) {
     session.user.role = token.role as UserRole;
   }
+
+  console.log('=======session======');
+  console.log({ session, token });
   return session;
 };
 
