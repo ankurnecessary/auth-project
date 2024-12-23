@@ -8,6 +8,7 @@ import { JWT } from 'next-auth/jwt';
 import type { AdapterUser } from '@auth/core/adapters';
 import { CredentialInput } from 'next-auth/providers/credentials';
 import { getTwoFactorConfirmationByUserId } from './data/two-factor-confirmation';
+import { getAccountByUserId } from './data/account';
 
 export const jwt = async ({
   token,
@@ -26,6 +27,11 @@ export const jwt = async ({
   const existingUser = await getUserById(token.sub);
 
   if (existingUser) {
+    const existingAccount = await getAccountByUserId(existingUser.id);
+
+    token.isOAuth = !!existingAccount;
+    token.name = existingUser.name;
+    token.email = existingUser.email;
     token.role = existingUser.role;
     token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
   }
@@ -50,6 +56,12 @@ export const session = ({
 
   if (!!session.user && !!token.role) {
     session.user.role = token.role as UserRole;
+  }
+
+  if (session.user) {
+    session.user.name = token.name;
+    session.user.email = token.email;
+    session.user.isOAuth = token.isOAuth;
   }
 
   console.log('=======session======');
